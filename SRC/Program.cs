@@ -49,8 +49,8 @@ namespace CSVtoSQL
         {
             // for test only
             // args = new string[] { "--help" };
-            // args = new string[] { "-s", "\\t", "-t", "template.txt", "-i", "test.xls", "-l", "5" };
-             //args = new string[] { "-t", "template.txt", "-i", "Book1.xlsx" };
+            // args = new string[] { "-s", "\\t", "-t", "template.txt", "-i", "test.csv", "-l", "5" };
+            // args = new string[] { "-t", "template.txt", "-i", "Book1.xlsx" };
 
             try
             {
@@ -78,17 +78,17 @@ namespace CSVtoSQL
                 Console.WriteLine("-t {0,-20} {1}", "template", options.TemplateFile);
                 Console.WriteLine("-i {0,-20} {1}" , "csv file or xlsx file",options.InputFile);
                 Console.WriteLine("-o {0,-20} {1}", "oputput file", options.OutputFile);
-                Console.WriteLine("-s {0,-20} {1}", "separator", options.FieldSeparator);
+                Console.WriteLine("-s {0,-20} {1}", "separator", options.FieldSeparator);  // only for csv
                 Console.WriteLine("-l {0,-20} {1}", "start from Line", options.startFromLine);
                 Console.WriteLine("loading template...");
-                string template = System.IO.File.ReadAllText(options.TemplateFile); // example Insert into table (column1, column2) values({0}, {1})"
+                string template = System.IO.File.ReadAllText(options.TemplateFile);         // example Insert into table (column1, column2) values({0}, {1})"
                 Console.WriteLine(template);
 
 
                 int i = 0;
                 StringBuilder sb = new StringBuilder();
 
-                if ( options.InputFile.EndsWith("xlsx")) //EXCEL
+                if ( options.InputFile.EndsWith("xlsx")) //EXCEL XLSX PROCESOR
                 {
                     var package = new ExcelPackage(new FileInfo(options.InputFile));
 
@@ -106,9 +106,7 @@ namespace CSVtoSQL
                         List<string> rowx = new List<string>();
                         for (int col = start.Column; col <= end.Column; col++)
                         {
-                            rowx.Add(workSheet.Cells[row, col].Text); // This got me the actual value I needed.
-
-                          
+                            rowx.Add(workSheet.Cells[row, col].Text); // Value not value:)
                         }
                         Console.Write("\r{0} of {1}", i, end.Row);
                         sb.AppendLine(string.Format(template, rowx.ToArray()));
@@ -117,7 +115,7 @@ namespace CSVtoSQL
                     }
 
                 }
-                else //CSV processing
+                else //CSV PROCESOR
                 {
                     using (StreamReader r = new StreamReader(options.InputFile))
                     {
