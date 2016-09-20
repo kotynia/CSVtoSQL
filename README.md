@@ -1,11 +1,11 @@
-# CSVtoSQL
+# CSVtoSQL  (from 0.4 EXCEL XLSX support)
 
 ## Description
 
 This little dirty application will help you to convert CSV file into set of SQL commands.
 To do that you can
 
-- provide input file in csv format (with any separator)
+- provide input file in csv format (with any separator) or EXCEL file (XLSX format)
 - define template file
 - CSVtoSQL will process each line and generate ouput file where script will be saved
 - later you can use for example osql to execute this statements
@@ -14,7 +14,7 @@ To do that you can
 
 ~~~
 Options:
-  -i, --input           (Default: input.csv) CSV file to be processedv
+  -i, --input           (Default: input.csv) CSV or EXCEL file to be processed 
 
   -o, --output          (Default: output.sql) FILE with Output
 
@@ -23,7 +23,7 @@ Options:
                         text  insert into mytable (column1,column2) values
                         ({0},{1})
 
-  -s, --csvseparator    (Default: ,) CSV Separator any char or   - tabulator
+  -s, --csvseparator    (Default: ,) CSV Separator any char or \t for tabulator
 
   -l, --line            (Default: 2) Start form Line
 
