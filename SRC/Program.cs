@@ -13,7 +13,7 @@ namespace CSVtoSQL
         class Options
         {
             [Option('i', "input", Required = false, DefaultValue = "input.csv",
-              HelpText = "CSV file to be processedv ")]
+              HelpText = "CSV file to process ")]
             public string InputFile { get; set; }
 
             [Option('o', "output", Required = false, DefaultValue = "output.sql",
@@ -25,7 +25,7 @@ namespace CSVtoSQL
             public string TemplateFile { get; set; }
 
             [Option('s', "csvseparator", Required = false, DefaultValue = ",",
-            HelpText = "CSV Separator any char or \t - tabulator")]
+            HelpText = "CSV Separator any char or \\t - tabulator")]
             public string FieldSeparator { get; set; }
 
             [Option('l', "line", Required = false, DefaultValue = "2",
