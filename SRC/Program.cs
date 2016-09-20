@@ -1,9 +1,9 @@
-﻿using System;
+﻿using CommandLine;
+using CommandLine.Text;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using CommandLine;
-using CommandLine.Text;
 
 namespace CSVtoSQL
 {
