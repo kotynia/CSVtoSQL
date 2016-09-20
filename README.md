@@ -5,9 +5,9 @@
 This little dirty application will help you to convert CSV file into set of SQL commands.
 To do that you can
 
-- provide input file in csv format
-- define template file which store template for each row
-- CSVtoSQL will generate ouput file where set of commands will be saved 
+- provide input file in csv format (with any separator)
+- define template file
+- CSVtoSQL will process each line and generate ouput file where script will be saved
 - later you can use for example osql to execute this statements
 
 ## Options
@@ -72,4 +72,17 @@ insert into mytable (column1,column2) values ('column1row3','column2row3');
 ~~~
 
 
+## Requirements
+.NET Framework 4
+
+## Known Issues
+This is dirty solution so do not expect complex parsing of CSV file
+for example if your column separator is "," this sample below will not work:
+
+~~~
+header,header
+column1row1,column2row1
+column1row2,"column2, row2"
+column1row3,column2row3
+~~~
 
