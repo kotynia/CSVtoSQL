@@ -75,7 +75,8 @@ insert into mytable (column1,column2) values ('column1row3','column2row3');
 ## Requirements
 .NET Framework 4
 
-## Known Issues
+## Known Issues and nice features
+1. Note about parsing CSV
 This is dirty solution so do not expect complex parsing of CSV file
 for example if your column separator is "," this sample below will not work:
 
@@ -84,5 +85,17 @@ header,header
 column1row1,column2row1
 column1row2,"column2, row2"
 column1row3,column2row3
+~~~
+
+2. EXCEL Procesor get VALUES not CELL TEXT
+That is feature it means that if you have function for example a1+a2 = 4 CSVtoSQL will take VALUE = 4 not formula
+
+3. Creative usage
+CSVtoSQL could be used to generate any content for example simple web pages 
+
+Template like ths will generate table on output (you need also add in script <table> </table>)
+TEMPLATE
+~~~
+<tr><td>{0}</td><td>{1}</td></tr>
 ~~~
 
