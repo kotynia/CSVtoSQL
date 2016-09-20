@@ -88,7 +88,7 @@ column1row3,column2row3
 ~~~
 
 2. EXCEL Procesor get VALUES not CELL TEXT
-That is feature it means that if you have function for example a1+a2 = 4 CSVtoSQL will take VALUE = 4 not formula
+This is feature it means that if you have function for example a1+a2 = 4 CSVtoSQL will take VALUE = 4 not formula
 
 3. Creative usage
 CSVtoSQL could be used to generate any content for example simple web pages 
