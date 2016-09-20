@@ -40,7 +40,36 @@ CSVtoSQL.exe -t template.txt -i input.csv -s \t
 
 All parameters provided
 ~~~
-CSVtoSQL.exe -t mytemplate.txt -i dataoprocess.csv -s \t -o myoutputfile.sql -l 4
+CSVtoSQL.exe -t mytemplate.txt -i data.csv -s \t -o myoutputfile.sql -l 4
 ~~~
+
+## SAMPLE FLOW
+Each row and column in csv is processed using temaplte file 
+
+### Sample data file data.csv
+~~~
+header,header
+column1row1,column2row1
+column1row2,column2row2
+column1row3,column2row3
+~~~
+
+### sample template mytemplate.txt 
+~~~
+insert into mytable (column1,column2) values ('{0}','{1}');
+~~~
+
+###Command
+~~~
+CSVtoSQL.exe -t mytemplate.txt -i data.csv 
+~~~
+
+###RESULT  output.sql
+~~~
+insert into mytable (column1,column2) values ('column1row1','column2row1');
+insert into mytable (column1,column2) values ('column1row2','column2row2');
+insert into mytable (column1,column2) values ('column1row3','column2row3');
+~~~
+
 
 
