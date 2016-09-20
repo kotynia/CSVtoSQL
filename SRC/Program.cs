@@ -1,5 +1,6 @@
 ﻿using CommandLine;
 using CommandLine.Text;
+using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -49,6 +50,7 @@ namespace CSVtoSQL
             // for test only
             // args = new string[] { "--help" };
             // args = new string[] { "-s", "\\t", "-t", "template.txt", "-i", "test.xls", "-l", "5" };
+             //args = new string[] { "-t", "template.txt", "-i", "Book1.xlsx" };
 
             try
             {
@@ -74,7 +76,7 @@ namespace CSVtoSQL
                 Console.WriteLine();
                 Console.WriteLine("Options:"); 
                 Console.WriteLine("-t {0,-20} {1}", "template", options.TemplateFile);
-                Console.WriteLine("-i {0,-20} {1}" , "csv file",options.InputFile);
+                Console.WriteLine("-i {0,-20} {1}" , "csv file or xlsx file",options.InputFile);
                 Console.WriteLine("-o {0,-20} {1}", "oputput file", options.OutputFile);
                 Console.WriteLine("-s {0,-20} {1}", "separator", options.FieldSeparator);
                 Console.WriteLine("-l {0,-20} {1}", "start from Line", options.startFromLine);
@@ -82,30 +84,65 @@ namespace CSVtoSQL
                 string template = System.IO.File.ReadAllText(options.TemplateFile); // example Insert into table (column1, column2) values({0}, {1})"
                 Console.WriteLine(template);
 
-                using (StreamReader r = new StreamReader(options.InputFile))
-                {
-                    string line;
-                    while ((line = r.ReadLine()) != null)
-                    {
-                        lines.Add(line);
-                    }
-                }
-                Console.WriteLine();
-                Console.WriteLine("Processing template...");
+
                 int i = 0;
                 StringBuilder sb = new StringBuilder();
 
-
-                foreach (string s in lines)
+                if ( options.InputFile.EndsWith("xlsx")) //EXCEL
                 {
-                    i++;
-                    if (i < int.Parse(options.startFromLine))
-                        continue;
+                    var package = new ExcelPackage(new FileInfo(options.InputFile));
+
+                    ExcelWorksheet workSheet = package.Workbook.Worksheets[1];
+                    var start = workSheet.Dimension.Start;
+                    var end = workSheet.Dimension.End;
                     
-                    Console.Write("\r{0} of {1}", i, lines.Count);
-                    sb.AppendLine(string.Format(template, s.Split(fieldSeparator)));
+                    for (int row = start.Row; row <= end.Row; row++)
+                    { // Row by row...
+
+                        i++;
+                        if (i < int.Parse(options.startFromLine))
+                            continue;
+
+                        List<string> rowx = new List<string>();
+                        for (int col = start.Column; col <= end.Column; col++)
+                        {
+                            rowx.Add(workSheet.Cells[row, col].Text); // This got me the actual value I needed.
+
+                          
+                        }
+                        Console.Write("\r{0} of {1}", i, end.Row);
+                        sb.AppendLine(string.Format(template, rowx.ToArray()));
+
+                        
+                    }
 
                 }
+                else //CSV processing
+                {
+                    using (StreamReader r = new StreamReader(options.InputFile))
+                    {
+                        string line;
+                        while ((line = r.ReadLine()) != null)
+                        {
+                            lines.Add(line);
+                        }
+                    }
+                    Console.WriteLine();
+                    Console.WriteLine("Processing template...");
+
+                    foreach (string s in lines)
+                    {
+                        i++;
+                        if (i < int.Parse(options.startFromLine))
+                            continue;
+
+                        Console.Write("\r{0} of {1}", i, lines.Count);
+                        sb.AppendLine(string.Format(template, s.Split(fieldSeparator)));
+
+                    }
+                }
+
+
                 Console.WriteLine("");
                 Console.WriteLine("Saving to File...");
                 //generate output only if no errors
