@@ -28,6 +28,10 @@ namespace CSVtoSQL
             HelpText = "CSV Separator")]
             public string FieldSeparator { get; set; }
 
+            [Option('l', "line", Required = false, DefaultValue = "2",
+            HelpText = "Start form Line")]
+            public string startFromLine { get; set; }
+
             [ParserState]
             public IParserState LastParserState { get; set; }
 
@@ -42,6 +46,9 @@ namespace CSVtoSQL
 
         static void Main(string[] args)
         {
+            //for test only
+            //args = new string[] { "-s", "\t", "-t", "template.txt" ,"-i","test.xls","-l","4"};
+
             try
             {
 
@@ -52,15 +59,13 @@ namespace CSVtoSQL
                 {
                     return;
                 }
-
-
-
-                 char fieldSeparator = options.FieldSeparator[0]; //default comma 
+                char[] fieldSeparator;
+                fieldSeparator = options.FieldSeparator.ToCharArray(); //default comma 
 
                 List<string> lines = new List<string>();
 
                 Console.WriteLine();
-                Console.WriteLine("Template = " +  options.TemplateFile);
+                Console.WriteLine("Template = " + options.TemplateFile);
 
                 Console.WriteLine();
                 Console.WriteLine("Loading template...");
@@ -76,6 +81,9 @@ namespace CSVtoSQL
                 Console.WriteLine();
                 Console.WriteLine("Field Separator = " + options.FieldSeparator);
 
+                Console.WriteLine();
+                Console.WriteLine("Start Form Line = " + options.startFromLine);
+
                 using (StreamReader r = new StreamReader(options.InputFile))
                 {
                     string line;
@@ -86,19 +94,26 @@ namespace CSVtoSQL
                 }
                 Console.WriteLine();
                 Console.WriteLine("Processing commands...");
-                int i = 1;
+                int i = 0;
                 StringBuilder sb = new StringBuilder();
+
+
                 foreach (string s in lines)
                 {
-                    Console.Write(i++ + " ");
+                    i++;
+                    if (i < int.Parse(options.startFromLine))
+                        continue;
+
+                    Console.Write(i + " ");
                     sb.AppendLine(string.Format(template, s.Split(fieldSeparator)));
+
                 }
 
                 //generate output only if no errors
                 using (System.IO.StreamWriter file = new System.IO.StreamWriter(options.OutputFile, true))
                 {
                     file.Write(sb);
-                    
+
                 }
 
                 Console.WriteLine();

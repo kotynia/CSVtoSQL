@@ -21,3 +21,9 @@ Options:
   -s, --csvseparator    (Default: ,) CSV Separator
 
   --help                Display this help screen.
+  
+  
+  
+SAMPLE Command line
+
+fileToMSSQL.exe -s \t  -i test.xls -t template.txt
