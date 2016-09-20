@@ -1,12 +1,16 @@
 # CSVtoSQL
 
+## Description
+
 This little dirty application will help you to convert CSV file into set of SQL commands.
 To do that you can
 
 - provide input file in csv format
 - define template file which store template for each row
-- CSVtoSQL till generate ouput file where set of commands will be saved > later you can use for example osql to execute this statements
+- CSVtoSQL will generate ouput file where set of commands will be saved 
+- later you can use for example osql to execute this statements
 
+## Options
 
 ~~~
 Options:
@@ -27,7 +31,7 @@ Options:
 ~~~  
   
 
-SAMPLE Command line
+## SAMPLE Command line
 
 Use tab character as column separator
 ~~~
