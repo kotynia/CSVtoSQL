@@ -72,4 +72,6 @@ insert into mytable (column1,column2) values ('column1row3','column2row3');
 ~~~
 
 
+## Requirements
+.NET Framework 4
 
