@@ -7,8 +7,8 @@
     <ProjectGuid>{82B2D3DB-4C49-4563-804C-BCEF5A7D1503}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>fileToMSSQL</RootNamespace>
-    <AssemblyName>fileToMSSQL</AssemblyName>
+    <RootNamespace>CSVtoSQL</RootNamespace>
+    <AssemblyName>CSVtoSQL</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

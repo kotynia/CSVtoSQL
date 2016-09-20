@@ -26,4 +26,4 @@ Options:
   
 SAMPLE Command line
 
-fileToMSSQL.exe -s \t  -i test.xls -t template.txt
+CSVtoSQL.exe -t template.txt -i input.csv -s \t
