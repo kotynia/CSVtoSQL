@@ -46,8 +46,9 @@ namespace CSVtoSQL
 
         static void Main(string[] args)
         {
-            //for test only
-            //args = new string[] { "-s", "\t", "-t", "template.txt" ,"-i","test.xls","-l","4"};
+            // for test only
+            // args = new string[] { "--help" };
+            // args = new string[] { "-s", "\\t", "-t", "template.txt", "-i", "test.xls", "-l", "5" };
 
             try
             {
@@ -55,34 +56,31 @@ namespace CSVtoSQL
                 var options = new Options();
                 CommandLine.Parser.Default.ParseArguments(args, options);
 
-                if (options.LastParserState != null && options.LastParserState.Errors.Count > 0)
+                if (options.LastParserState != null && options.LastParserState.Errors.Count > 0 || options.FieldSeparator==null)
                 {
                     return;
                 }
+
                 char[] fieldSeparator;
-                fieldSeparator = options.FieldSeparator.ToCharArray(); //default comma 
+                if (options.FieldSeparator == "\\t")
+                    fieldSeparator = "\t".ToCharArray();                    //tab
+                else
+                    fieldSeparator = options.FieldSeparator.ToCharArray();  //default comma 
 
                 List<string> lines = new List<string>();
+                Console.WriteLine("CSVtoSQL, CSV Parser to Script File using Template, https://github.com/marcinKotynia/CSVtoSQL");
+                Console.WriteLine(" for help type CSVtoSQL.exe --help");
 
                 Console.WriteLine();
-                Console.WriteLine("Template = " + options.TemplateFile);
-
-                Console.WriteLine();
-                Console.WriteLine("Loading template...");
+                Console.WriteLine("Options:"); 
+                Console.WriteLine("-t {0,-20} {1}", "template", options.TemplateFile);
+                Console.WriteLine("-i {0,-20} {1}" , "csv file",options.InputFile);
+                Console.WriteLine("-o {0,-20} {1}", "oputput file", options.OutputFile);
+                Console.WriteLine("-s {0,-20} {1}", "separator", options.FieldSeparator);
+                Console.WriteLine("-l {0,-20} {1}", "start from Line", options.startFromLine);
+                Console.WriteLine("loading template...");
                 string template = System.IO.File.ReadAllText(options.TemplateFile); // example Insert into table (column1, column2) values({0}, {1})"
                 Console.WriteLine(template);
-
-                Console.WriteLine();
-                Console.WriteLine("Data file = " + options.InputFile);
-
-                Console.WriteLine();
-                Console.WriteLine("Oputput file = " + options.OutputFile);
-
-                Console.WriteLine();
-                Console.WriteLine("Field Separator = " + options.FieldSeparator);
-
-                Console.WriteLine();
-                Console.WriteLine("Start Form Line = " + options.startFromLine);
 
                 using (StreamReader r = new StreamReader(options.InputFile))
                 {
@@ -93,7 +91,7 @@ namespace CSVtoSQL
                     }
                 }
                 Console.WriteLine();
-                Console.WriteLine("Processing commands...");
+                Console.WriteLine("Processing template...");
                 int i = 0;
                 StringBuilder sb = new StringBuilder();
 
@@ -103,20 +101,20 @@ namespace CSVtoSQL
                     i++;
                     if (i < int.Parse(options.startFromLine))
                         continue;
-
-                    Console.Write(i + " ");
+                    
+                    Console.Write("\r{0} of {1}", i, lines.Count);
                     sb.AppendLine(string.Format(template, s.Split(fieldSeparator)));
 
                 }
-
+                Console.WriteLine("");
+                Console.WriteLine("Saving to File...");
                 //generate output only if no errors
                 using (System.IO.StreamWriter file = new System.IO.StreamWriter(options.OutputFile, true))
                 {
                     file.Write(sb);
 
                 }
-
-                Console.WriteLine();
+                
                 Console.WriteLine("DONE");
 
             }
