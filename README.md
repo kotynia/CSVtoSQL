@@ -93,7 +93,7 @@ That is feature it means that if you have function for example a1+a2 = 4 CSVtoSQ
 3. Creative usage
 CSVtoSQL could be used to generate any content for example simple web pages 
 
-Template like ths will generate table on output (you need also add in script <table> </table>)
+Template like ths will generate table body on output 
 TEMPLATE
 ~~~
 <tr><td>{0}</td><td>{1}</td></tr>
