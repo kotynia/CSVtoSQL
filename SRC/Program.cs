@@ -21,11 +21,11 @@ namespace CSVtoSQL
             public string OutputFile { get; set; }
 
             [Option('t', "template", Required = true, DefaultValue = "template.txt",
-            HelpText = "FILE with template . Sample Template text  insert into test (xxx,yyy) values ( {1},{2})  ")]
+            HelpText = "Template file where data will be replaced form input file . Sample Template text  insert into mytable (column1,column2) values ({0},{1})  ")]
             public string TemplateFile { get; set; }
 
             [Option('s', "csvseparator", Required = false, DefaultValue = ",",
-            HelpText = "CSV Separator")]
+            HelpText = "CSV Separator any char or \t - tabulator")]
             public string FieldSeparator { get; set; }
 
             [Option('l', "line", Required = false, DefaultValue = "2",
