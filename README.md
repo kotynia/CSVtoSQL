@@ -47,7 +47,7 @@ CSVtoSQL.exe -t template.txt -i input.csv -s \t
 CSVtoSQL.exe -t mytemplate.txt -i data.csv -s \t -o myoutputfile.sql -l 4
 ~~~
 
-### Uage in  batch file
+### Use in  batch file
 Steps
 
 1. delete output file
