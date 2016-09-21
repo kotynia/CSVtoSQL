@@ -44,8 +44,23 @@ namespace CSVtoSQL
             }
         }
 
+        /// <summary>
+        /// ExitCode can be read by batch 
+        /// @echo off
+        //  CSVtoSQL.exe
+        //  if errorlevel 10 (
+        //   echo Failure Reason Given is %errorlevel%
+        //   exit /b %errorlevel%
+        //  )
+        /// </summary>
+        enum ExitCode : int
+        {
+            Success = 0,
+            Error = 10
+        }
 
-        static void Main(string[] args)
+
+        static int Main(string[] args)
         {
             // for test only
             // args = new string[] { "--help" };
@@ -60,7 +75,7 @@ namespace CSVtoSQL
 
                 if (options.LastParserState != null && options.LastParserState.Errors.Count > 0 || options.FieldSeparator==null)
                 {
-                    return;
+                    return (int)ExitCode.Error;
                 }
 
                 char[] fieldSeparator;
@@ -151,18 +166,15 @@ namespace CSVtoSQL
                 }
                 
                 Console.WriteLine("DONE");
-
+                return (int)ExitCode.Success;
             }
             catch (Exception ex)
             {
                 Console.WriteLine("ERROR " + ex.Message.ToString());
-
+                return (int)ExitCode.Error;
             }
 
         }
-
-
-
-
+        
     }
 }
