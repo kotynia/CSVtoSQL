@@ -30,18 +30,48 @@ Options:
   --help                Display this help screen.
 ~~~  
   
+### Error Levels
+You can catch error level in batch file, error levels:
+10 - ERROR
+0 - SUCCESS
 
-## SAMPLE Command line
+## SAMPLES
 
-Use tab character as column separator
+### Use tab character as column separator
 ~~~
 CSVtoSQL.exe -t template.txt -i input.csv -s \t
 ~~~
 
-All parameters provided
+### All parameters provided
 ~~~
 CSVtoSQL.exe -t mytemplate.txt -i data.csv -s \t -o myoutputfile.sql -l 4
 ~~~
+
+### Uage in  batch file
+Steps
+
+1. delete output file
+2. run cnverter CSVtoSQL
+3. handle error if occure or run command on sql server
+
+~~~
+@echo off
+echo Delete file
+del output.sql /q
+
+echo run CSVtoSQL
+CSVtoSQL.exe -t template.txt -i input.csv  -o output.sql
+
+if errorlevel 10 (
+   echo Failure Reason Given is %errorlevel%
+   echo Handle Errors Here
+) 
+else
+(   
+   osql.exe -S %SERVERNAME% -U %USERNAME% -P %PASSWORD% -d %DBNAME%  -i output.sql
+)
+~~~
+
 
 ## SAMPLE FLOW
 Each row and column in csv is processed using temaplte file 
