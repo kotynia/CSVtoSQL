@@ -129,3 +129,10 @@ TEMPLATE
 <tr><td>{0}</td><td>{1}</td></tr>
 ~~~
 
+
+## Copyright and License
+
+Copyright 2016 Marcin Kotynia
+Licensed under the MIT License
+
+Contact: marcin@kotynia.com
